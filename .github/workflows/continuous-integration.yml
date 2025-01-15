@@ -31,7 +31,7 @@ jobs:
           echo "random_commits=$RANDOM_COMMITS" >> $GITHUB_ENV
 
       # Step 4: Make random commits
-      - name: Create random commits
+      - name: update version status
         run: |
           for ((i=1; i<=${{ env.random_commits }}; i++)); do
             # Append date and time to the file
