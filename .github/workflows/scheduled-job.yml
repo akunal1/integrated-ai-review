@@ -1,6 +1,7 @@
 name: Scheduled Commits
 
 on:
+  workflow_dispatch:
   schedule: 
     - cron: '*/5 * * * *'
 
