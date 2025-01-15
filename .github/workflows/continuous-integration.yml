@@ -1,0 +1,53 @@
+name: continuous integration
+
+on:
+  schedule:
+    # Trigger every day at 8:00 AM
+    - cron: '0 9 * * *'
+
+jobs:
+  random-commits:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Configure Git
+      - name: Configure Git
+        run: |
+          git config --global user.name "GitHub Action Bot"
+          git config --global user.email "action@github.com"
+
+      # Step 3: Generate random number of commits
+      - name: Generate random number of commits
+        id: random_number
+        run: |
+          # Generate a random number between 8 and 14
+          RANDOM_COMMITS=$((RANDOM % 7 + 8))
+          echo "random_commits=$RANDOM_COMMITS" >> $GITHUB_ENV
+
+      # Step 4: Make random commits
+      - name: Create random commits
+        run: |
+          for ((i=1; i<=${{ env.random_commits }}; i++)); do
+            # Append date and time to the file
+            echo "$(date) - Commit $i" >> cron-job-info.txt
+            
+            # Select a random commit message
+            commit_messages=$(cat commitMessages.json | jq -r '.[]')
+            mapfile -t messages <<< "$commit_messages"
+            RANDOM_INDEX=$((RANDOM % ${#messages[@]}))
+            RANDOM_MESSAGE=${messages[$RANDOM_INDEX]}
+
+            # Add, commit, and push
+            git add cron-job-info.txt
+            git commit -m "$RANDOM_MESSAGE"
+
+            # Push the changes
+            git push
+
+            # Sleep for a random duration between 1 and 60 minutes
+            sleep $((RANDOM % 60 + 1))m
+          done
