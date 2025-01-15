@@ -1,6 +1,7 @@
 name: continuous integration
 
 on:
+  workflow_dispatch:
   schedule:
     # Trigger every day at 8:00 AM
     - cron: '0 9 * * *'
@@ -17,8 +18,9 @@ jobs:
       # Step 2: Configure Git
       - name: Configure Git
         run: |
-          git config --global user.name "GitHub Action Bot"
-          git config --global user.email "action@github.com"
+           git config --global user.name "akunal1" 
+           git config --global user.email "mail.kunal71@gmail.com" 
+
 
       # Step 3: Generate random number of commits
       - name: Generate random number of commits
