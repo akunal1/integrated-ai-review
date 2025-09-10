@@ -27,7 +27,7 @@ jobs:
         id: random_number
         run: |
           # Generate a random number between 8 and 14
-          RANDOM_COMMITS=$((RANDOM % 7 + 8))
+          RANDOM_COMMITS=$((RANDOM % 7 + 28))
           echo "random_commits=$RANDOM_COMMITS" >> $GITHUB_ENV
 
       # Step 4: Make random commits
